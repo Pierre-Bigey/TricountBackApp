@@ -19,6 +19,10 @@ public class UserAccount extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
+    @Column(name = "username", nullable = false)
+    @NotNull(message = "User must have a username")
+    private String username;
+
     @Column(name = "firstname", nullable = false)
     @NotNull(message = "User must have a firstname.")
     private String firstname;
@@ -26,4 +30,8 @@ public class UserAccount extends BaseEntity {
     @Column(name = "lastname", nullable = false)
     @NotNull(message = "User must have a lastname.")
     private String lastname;
+
+    @Column(name = "password", nullable = false)
+    @NotNull(message = "User must have a password.")
+    private String password;
 }

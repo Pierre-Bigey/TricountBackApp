@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
     @Modifying
     @Transactional
-    @Query(value = "UPDATE user_account SET firstname = ?1, lastname = ?2 WHERE id = ?3", nativeQuery = true)
-    void updateById(String firstname, String lastname, long id);
+    @Query(value = "UPDATE user_account SET username = ?1, firstname = ?2, lastname = ?3, password = ?4 WHERE id = ?5", nativeQuery = true)
+    void updateById(String username,String firstname, String lastname, String password, long id);
 }

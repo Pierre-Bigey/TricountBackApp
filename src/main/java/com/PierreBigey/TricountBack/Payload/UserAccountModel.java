@@ -8,4 +8,6 @@ import org.springframework.stereotype.Component;
 public class UserAccountModel {
     private String firstname;
     private String lastname;
+    private String username;
+    private String password;
 }

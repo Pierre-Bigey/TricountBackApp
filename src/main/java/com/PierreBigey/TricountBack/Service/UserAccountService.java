@@ -24,8 +24,10 @@ public class UserAccountService {
     //Create a new user account
     public UserAccount createUserAccount(UserAccountModel userAccountModel) {
         var userAccountToSave = UserAccount.builder()
+                .username(userAccountModel.getUsername())
                 .firstname(userAccountModel.getFirstname())
                 .lastname(userAccountModel.getLastname())
+                .password(userAccountModel.getPassword())
                 .build();
         return userAccountRepository.save(userAccountToSave);
     }
@@ -43,7 +45,7 @@ public class UserAccountService {
     //Update a user account
     public void updateOne(long id, UserAccountModel userAccountModel) {
         if (userAccountRepository.findById(id).isEmpty()) throw new EntityNotFoundException();
-        userAccountRepository.updateById(userAccountModel.getFirstname(), userAccountModel.getLastname(), id);
+        userAccountRepository.updateById(userAccountModel.getUsername(), userAccountModel.getFirstname(), userAccountModel.getLastname(), userAccountModel.getPassword(), id);
     }
 
     public UserAccount patchOne(long id, JsonPatch patch) {
