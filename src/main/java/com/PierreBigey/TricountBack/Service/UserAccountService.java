@@ -23,7 +23,7 @@ public class UserAccountService {
 
     //Create a new user account
     public UserAccount createUserAccount(UserAccountModel userAccountModel) {
-        var userAccountToSave = UserAccount.builder()
+        UserAccount userAccountToSave = UserAccount.builder()
                 .username(userAccountModel.getUsername())
                 .firstname(userAccountModel.getFirstname())
                 .lastname(userAccountModel.getLastname())
