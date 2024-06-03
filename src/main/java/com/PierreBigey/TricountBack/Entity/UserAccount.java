@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -34,4 +36,5 @@ public class UserAccount extends BaseEntity {
     @Column(name = "password", nullable = false)
     @NotNull(message = "User must have a password.")
     private String password;
+
 }

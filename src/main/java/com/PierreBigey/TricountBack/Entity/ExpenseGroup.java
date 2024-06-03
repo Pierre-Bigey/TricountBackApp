@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -25,5 +27,22 @@ public class ExpenseGroup extends BaseEntity {
     @Column(name = "description", nullable = false)
     @NotNull(message = "group must have a description.")
     private String description;
+
+    @ManyToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER // fetches the child entities along with parent (not when required)
+    )
+    @JoinTable(
+            name = "users_groups",
+            joinColumns = @JoinColumn(
+                    name = "group_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "user_id",
+                    referencedColumnName = "id"
+            )
+    )
+    private List<UserAccount> members;
 
 }
