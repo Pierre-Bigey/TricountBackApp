@@ -13,5 +13,5 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE expense SET title = ?1, description = ?2, amount = ?3, author_id = ?4, group_id = ?5, WHERE id = ?6", nativeQuery = true)
-    void updateById(String title,String description,int amount, long author_id, long group_id, long id);
+    void updateById(String title,String description,double amount, long author_id, long group_id, long id);
 }

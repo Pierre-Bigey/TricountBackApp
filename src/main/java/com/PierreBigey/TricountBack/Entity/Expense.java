@@ -35,7 +35,7 @@ public class Expense extends BaseEntity {
 
     @Column(name = "amount", nullable = false)
     @NotNull(message = "Expense must have a amount.")
-    private int amount;
+    private double amount;
 
     @ManyToOne
     @JoinColumn(

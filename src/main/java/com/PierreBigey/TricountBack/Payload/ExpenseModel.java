@@ -13,7 +13,7 @@ import java.util.List;
 public class ExpenseModel {
     private String title;
     private String description;
-    private int amount;
+    private double amount;
     private long author_id;
     private long group_id;
     private List<Long> participations_ids;

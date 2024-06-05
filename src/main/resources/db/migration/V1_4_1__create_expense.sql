@@ -2,7 +2,7 @@ CREATE TABLE expense (
     id bigserial PRIMARY KEY,
     title varchar(255) NOT NULL,
     description varchar(255),
-    amount integer NOT NULL,
+    amount DOUBLE PRECISION NOT NULL,
     created_at date NOT NULL,
     updated_at date NOT NULL,
     author_id bigserial NOT NULL,
