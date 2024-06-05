@@ -27,7 +27,7 @@ public class ExpenseService {
     @Autowired
     private ExpenseGroupService expenseGroupService;
 
-    //Create a new group
+    //Create a new expense
     public Expense createExpense(ExpenseModel expenseModel){
         Expense expenseToSave = Expense.builder()
                 .title(expenseModel.getTitle())
@@ -39,17 +39,17 @@ public class ExpenseService {
         return expenseRepository.save(expenseToSave);
     }
 
-    //Get all user accounts
+    //Get all expenses
     public List<Expense> getAllExpenses() {
         return expenseRepository.findAll().stream().sorted(Comparator.comparing(Expense::getId)).toList();
     }
 
-    //Get a user account by id
+    //Get an expense by id
     public Expense getExpenseById(Long id) {
         return expenseRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    //Update a user account
+    //Update an expense
     public void updateOne(long id, ExpenseModel expenseModel) {
         if (expenseRepository.findById(id).isEmpty()) throw new EntityNotFoundException();
         expenseRepository.updateById(expenseModel.getTitle(), expenseModel.getDescription(),expenseModel.getAmount(),expenseModel.getAuthor_id(),expenseModel.getGroup_id(), id);

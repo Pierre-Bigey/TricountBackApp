@@ -28,7 +28,7 @@ public class ExpenseParticipationService {
     private ExpenseService expenseService;
 
 
-    //Create a new group
+    //Create a new participation
     public ExpenseParticipation createExpenseParticipation(ExpenseParticipationModel expenseParticipationModel){
         ExpenseParticipation expenseParticipationToSave = ExpenseParticipation.builder()
                 .expense(expenseService.getExpenseById(expenseParticipationModel.getExpense_id()))
@@ -38,17 +38,17 @@ public class ExpenseParticipationService {
         return expenseParticipationRepository.save(expenseParticipationToSave);
     }
 
-    //Get all user accounts
+    //Get all participations
     public List<ExpenseParticipation> getAllExpenseParticipations() {
         return expenseParticipationRepository.findAll().stream().sorted(Comparator.comparing(ExpenseParticipation::getId)).toList();
     }
 
-    //Get a user account by id
+    //Get a participation by id
     public ExpenseParticipation getExpenseParticipationById(Long id) {
         return expenseParticipationRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    //Update a user account
+    //Update a participation
     public void updateOne(long id, ExpenseParticipationModel expenseParticipationModel) {
         if (expenseParticipationRepository.findById(id).isEmpty()) throw new EntityNotFoundException();
         expenseParticipationRepository.updateById(expenseParticipationModel.getExpense_id(), expenseParticipationModel.getUser_id(),expenseParticipationModel.getWeight(), id);
