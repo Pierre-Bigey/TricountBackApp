@@ -2,9 +2,11 @@ package com.PierreBigey.TricountBack.Service;
 
 import com.PierreBigey.TricountBack.Entity.Expense;
 import com.PierreBigey.TricountBack.Entity.ExpenseGroup;
+import com.PierreBigey.TricountBack.Entity.ExpenseParticipation;
 import com.PierreBigey.TricountBack.Entity.UserAccount;
 import com.PierreBigey.TricountBack.Exception.ResourceNotFoundException;
 import com.PierreBigey.TricountBack.Payload.ExpenseGroupModel;
+import com.PierreBigey.TricountBack.Payload.UserBalance;
 import com.PierreBigey.TricountBack.Repository.ExpenseGroupRepository;
 import com.PierreBigey.TricountBack.Repository.UserAccountRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,8 +18,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ExpenseGroupService {
@@ -97,4 +98,47 @@ public class ExpenseGroupService {
         }
     }
 
+
+    /**
+     * Compute and return the balance of each user in the group
+     *
+     * @param id the id of the group
+     * @return the list of UserBalance
+     */
+    public List<UserBalance> getBalance(long id){
+        ExpenseGroup group = expenseGroupRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Group with ID %d not found", id)));
+
+        // List of expenses relative to the group
+        List<Expense> expenses_of_group = group.getExpenses();
+
+        // Create a map to store user balances with userId as key
+        Map<Long, UserBalance> userBalanceMap = new HashMap<>();
+
+        // Initialize user balances
+        for (Long userId : group.getMembers_ids()) {
+            userBalanceMap.put(userId, new UserBalance(userId));
+        }
+
+        // Iterate over expenses and update user balances
+        for (Expense expense : group.getExpenses()) {
+            double amount = expense.getAmount(); // Initialize positive balance with author's expense
+            int expenseTotalWeight = expense.getSumOfWeight();
+
+            // Update positive balance for author
+            UserBalance authorBalance = userBalanceMap.get(expense.getAuthor().getId());
+            authorBalance.setBalance(authorBalance.getBalance() + amount);
+
+            // Update negative balance for participants
+            for (ExpenseParticipation participation : expense.getParticipations()) {
+                double negative = expense.getAmount() * participation.getWeight() / expenseTotalWeight;
+                UserBalance participantBalance = userBalanceMap.get(participation.getUser_id());
+                participantBalance.setBalance(participantBalance.getBalance() - negative);
+                participantBalance.setTotalExpense(participantBalance.getTotalExpense() + negative);
+            }
+        }
+
+        // Convert map values to list and return
+        return new ArrayList<>(userBalanceMap.values());
+    }
 }

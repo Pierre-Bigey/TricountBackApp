@@ -77,6 +77,14 @@ public class Expense extends BaseEntity {
                 .collect(Collectors.toList());
     }
 
+    public int getSumOfWeight(){
+        int sum = 0;
+        for(ExpenseParticipation participation : participations){
+            sum += participation.getWeight();
+        }
+        return sum;
+    }
+
     public ExpenseModel viewAsExpenseModel(){
         return new ExpenseModel(this);
     }

@@ -4,6 +4,7 @@ package com.PierreBigey.TricountBack.Controller;
 import com.PierreBigey.TricountBack.Entity.ExpenseGroup;
 import com.PierreBigey.TricountBack.Entity.UserAccount;
 import com.PierreBigey.TricountBack.Payload.ExpenseGroupModel;
+import com.PierreBigey.TricountBack.Payload.UserBalance;
 import com.PierreBigey.TricountBack.Service.ExpenseGroupService;
 import com.github.fge.jsonpatch.JsonPatch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,11 @@ public class ExpenseGroupController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAllExpenseGroups() {
         expenseGroupService.deleteAll();
+    }
+
+    @GetMapping("/balance/{id}")
+    public List<UserBalance> getGroupBalance(@PathVariable("id") int id){
+        return expenseGroupService.getBalance(id);
     }
 
 }
