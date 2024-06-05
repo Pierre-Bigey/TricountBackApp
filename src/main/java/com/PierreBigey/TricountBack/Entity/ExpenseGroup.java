@@ -61,6 +61,20 @@ public class ExpenseGroup extends BaseEntity {
                 .collect(Collectors.toList());
     }
 
+    @OneToMany
+    @JoinColumn(name = "group_id")
+    @JsonIgnore
+    private List<Expense> expenses;
+
+    public List<Long> getExpenses_ids(){
+        if(Objects.isNull(expenses)){
+            return new ArrayList<>();
+        }
+        return expenses.stream()
+                .map(Expense::getId)
+                .collect(Collectors.toList());
+    }
+
     public ExpenseGroupModel viewAsExpenseGroupModel(){
         return new ExpenseGroupModel(this);
     }

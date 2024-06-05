@@ -1,5 +1,6 @@
 package com.PierreBigey.TricountBack.Service;
 
+import com.PierreBigey.TricountBack.Entity.Expense;
 import com.PierreBigey.TricountBack.Entity.ExpenseGroup;
 import com.PierreBigey.TricountBack.Entity.UserAccount;
 import com.PierreBigey.TricountBack.Exception.ResourceNotFoundException;
