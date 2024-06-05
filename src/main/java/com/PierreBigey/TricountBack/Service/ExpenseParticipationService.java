@@ -24,12 +24,15 @@ public class ExpenseParticipationService {
     @Autowired
     private UserAccountService userAccountService;
 
+    @Autowired
+    private ExpenseService expenseService;
+
 
     //Create a new group
     public ExpenseParticipation createExpenseParticipation(ExpenseParticipationModel expenseParticipationModel){
         ExpenseParticipation expenseParticipationToSave = ExpenseParticipation.builder()
-                .expense_id(expenseParticipationModel.getExpense())
-                .user(userAccountService.getUserAccountById(expenseParticipationModel.getUser()))
+                .expense(expenseService.getExpenseById(expenseParticipationModel.getExpense_id()))
+                .user(userAccountService.getUserAccountById(expenseParticipationModel.getUser_id()))
                 .weight(expenseParticipationModel.getWeight())
                 .build();
         return expenseParticipationRepository.save(expenseParticipationToSave);
@@ -48,7 +51,7 @@ public class ExpenseParticipationService {
     //Update a user account
     public void updateOne(long id, ExpenseParticipationModel expenseParticipationModel) {
         if (expenseParticipationRepository.findById(id).isEmpty()) throw new EntityNotFoundException();
-        expenseParticipationRepository.updateById(expenseParticipationModel.getExpense(), expenseParticipationModel.getUser(),expenseParticipationModel.getWeight(), id);
+        expenseParticipationRepository.updateById(expenseParticipationModel.getExpense_id(), expenseParticipationModel.getUser_id(),expenseParticipationModel.getWeight(), id);
     }
 
     public ExpenseParticipation patchOne(long id, JsonPatch patch) {

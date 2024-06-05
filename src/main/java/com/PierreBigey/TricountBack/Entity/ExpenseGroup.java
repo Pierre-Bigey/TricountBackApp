@@ -1,10 +1,15 @@
 package com.PierreBigey.TricountBack.Entity;
 
+import com.PierreBigey.TricountBack.Payload.ExpenseGroupModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -44,6 +49,20 @@ public class ExpenseGroup extends BaseEntity {
                     referencedColumnName = "id"
             )
     )
+    @JsonIgnore
     private List<UserAccount> members;
+
+    public List<Long> getMembers_ids(){
+        if(Objects.isNull(members)){
+            return new ArrayList<>();
+        }
+        return members.stream()
+                .map(UserAccount::getId)
+                .collect(Collectors.toList());
+    }
+
+    public ExpenseGroupModel viewAsExpenseGroupModel(){
+        return new ExpenseGroupModel(this);
+    }
 
 }

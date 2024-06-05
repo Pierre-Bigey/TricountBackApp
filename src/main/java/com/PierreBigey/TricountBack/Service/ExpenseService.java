@@ -33,8 +33,8 @@ public class ExpenseService {
                 .title(expenseModel.getTitle())
                 .description(expenseModel.getDescription())
                 .amount(expenseModel.getAmount())
-                .author(userAccountService.getUserAccountById(expenseModel.getAuthor()))
-                .group(expenseGroupService.getExpenseGroupById(expenseModel.getGroup()))
+                .author(userAccountService.getUserAccountById(expenseModel.getAuthor_id()))
+                .group(expenseGroupService.getExpenseGroupById(expenseModel.getGroup_id()))
                 .build();
         return expenseRepository.save(expenseToSave);
     }
@@ -52,7 +52,7 @@ public class ExpenseService {
     //Update a user account
     public void updateOne(long id, ExpenseModel expenseModel) {
         if (expenseRepository.findById(id).isEmpty()) throw new EntityNotFoundException();
-        expenseRepository.updateById(expenseModel.getTitle(), expenseModel.getDescription(),expenseModel.getAmount(),expenseModel.getAuthor(),expenseModel.getGroup(), id);
+        expenseRepository.updateById(expenseModel.getTitle(), expenseModel.getDescription(),expenseModel.getAmount(),expenseModel.getAuthor_id(),expenseModel.getGroup_id(), id);
     }
 
     public Expense patchOne(long id, JsonPatch patch) {

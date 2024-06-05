@@ -1,11 +1,16 @@
 package com.PierreBigey.TricountBack.Entity;
 
+import com.PierreBigey.TricountBack.Payload.UserAccountModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -38,4 +43,35 @@ public class UserAccount extends BaseEntity {
     @NotNull(message = "User must have a password.")
     private String password;
 
+
+    @ManyToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER // fetches the child entities along with parent (not when required)
+    )
+    @JoinTable(
+            name = "users_groups",
+            joinColumns = @JoinColumn(
+                    name = "user_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "group_id",
+                    referencedColumnName = "id"
+            )
+    )
+    @JsonIgnore
+    private Collection<ExpenseGroup> expenseGroups;
+
+    public List<Long> getExpenseGroups_ids(){
+        if(Objects.isNull(expenseGroups)){
+            return new ArrayList<>();
+        }
+        return expenseGroups.stream()
+                .map(ExpenseGroup::getId)
+                .collect(Collectors.toList());
+    }
+
+    public UserAccountModel viewAsUserAccountModel(){
+        return new UserAccountModel(this);
+    }
 }
