@@ -3,6 +3,7 @@ package com.PierreBigey.TricountBack.Controller;
 import com.PierreBigey.TricountBack.Exception.ResourceNotFoundException;
 import com.PierreBigey.TricountBack.Exception.UserNotInGroupException;
 import com.PierreBigey.TricountBack.Utils.ErrorResponse;
+import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,6 +21,12 @@ public class CustomExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),"ResourceNotFoundException", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PSQLException.class)
+    public ResponseEntity<ErrorResponse> handlePSQLException(PSQLException ex){
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),"PSQLException state : "+ex.getSQLState(), ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }
