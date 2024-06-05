@@ -16,8 +16,9 @@ import java.util.List;
 public class ExpenseGroup extends BaseEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "expense_group_id_seq")
+    @SequenceGenerator(name = "expense_group_id_seq", sequenceName = "expense_group_id_seq", allocationSize = 1)
     @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     @Column(name = "groupname", nullable = false)
