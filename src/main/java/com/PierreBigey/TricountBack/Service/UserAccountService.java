@@ -2,6 +2,7 @@ package com.PierreBigey.TricountBack.Service;
 
 import com.PierreBigey.TricountBack.Entity.ExpenseGroup;
 import com.PierreBigey.TricountBack.Entity.UserAccount;
+import com.PierreBigey.TricountBack.Exception.ResourceNotFoundException;
 import com.PierreBigey.TricountBack.Payload.UserAccountModel;
 import com.PierreBigey.TricountBack.Repository.ExpenseGroupRepository;
 import com.PierreBigey.TricountBack.Repository.UserAccountRepository;
@@ -62,6 +63,23 @@ public class UserAccountService {
         var userAccount = userAccountRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         var userAccountPatched = applyPatchToUserAccount(patch, userAccount);
         return userAccountRepository.save(userAccountPatched);
+    }
+
+    public UserAccount addGroupsToUser(long userId, List<Long> groupIds) {
+        UserAccount userAccount = userAccountRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("User with ID %d not found", userId)));
+
+        for(long group_id : groupIds){
+            ExpenseGroup expenseGroup = expenseGroupRepository.findById(group_id)
+                    .orElseThrow(() -> new ResourceNotFoundException(String.format("Group with ID %d not found", group_id)));
+            userAccountRepository.AddGroupToUser(userId, group_id);
+        }
+
+        UserAccount userAccountUpdated = userAccountRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("User with ID %d not found", userId)));
+
+
+        return userAccountUpdated;
     }
 
     public void deleteById(long id) {

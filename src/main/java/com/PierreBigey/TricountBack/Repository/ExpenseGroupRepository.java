@@ -13,4 +13,9 @@ public interface ExpenseGroupRepository extends JpaRepository<ExpenseGroup, Long
     @Transactional
     @Query(value = "UPDATE expense_group SET groupname = ?1, description = ?2 WHERE id = ?3", nativeQuery = true)
     void updateById(String groupname,String description, long id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO users_groups (user_id, group_id) VALUES (?2,?1);", nativeQuery = true)
+    void AddUserToGroup(long group_id, long user_id);
 }

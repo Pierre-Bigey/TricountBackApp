@@ -2,6 +2,7 @@ package com.PierreBigey.TricountBack.Controller;
 
 
 import com.PierreBigey.TricountBack.Entity.ExpenseGroup;
+import com.PierreBigey.TricountBack.Entity.UserAccount;
 import com.PierreBigey.TricountBack.Payload.ExpenseGroupModel;
 import com.PierreBigey.TricountBack.Service.ExpenseGroupService;
 import com.github.fge.jsonpatch.JsonPatch;
@@ -45,6 +46,11 @@ public class ExpenseGroupController {
     @PatchMapping(value = "/update/{id}", consumes = "application/json-patch+json")
     public ResponseEntity<ExpenseGroup> patchOneExpenseGroup(@PathVariable("id") int id, @RequestBody JsonPatch patch) {
         return new ResponseEntity<>(expenseGroupService.patchOne(id, patch),HttpStatus.OK);
+    }
+
+    @PostMapping("/{groupId}/add-user")
+    public ResponseEntity<ExpenseGroup> addUserToGroups(@PathVariable long groupId, @RequestBody List<Long> userIds) {
+        return new ResponseEntity<>(expenseGroupService.addUsersToGroup(groupId, userIds),HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
