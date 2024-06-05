@@ -35,7 +35,7 @@ public class Expense extends BaseEntity {
     @ManyToOne
     @JoinColumn(
             name = "author_id",
-            referencedColumnName = "id" // primary key of the user who owns this MESSAGE
+            referencedColumnName = "id"
     )
     @NotNull(message = "Expense must have an author")
     private UserAccount author;
@@ -43,9 +43,13 @@ public class Expense extends BaseEntity {
     @ManyToOne
     @JoinColumn(
             name = "group_id",
-            referencedColumnName = "id" // primary key of the user who owns this MESSAGE
+            referencedColumnName = "id"
     )
     @NotNull(message = "Expense must have a group.")
     private ExpenseGroup group;
+
+    @OneToMany
+    @JoinColumn(name = "expense_id")
+    private List<ExpenseParticipation> participations;
 
 }
