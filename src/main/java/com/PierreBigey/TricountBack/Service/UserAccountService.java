@@ -1,7 +1,9 @@
 package com.PierreBigey.TricountBack.Service;
 
+import com.PierreBigey.TricountBack.Entity.ExpenseGroup;
 import com.PierreBigey.TricountBack.Entity.UserAccount;
 import com.PierreBigey.TricountBack.Payload.UserAccountModel;
+import com.PierreBigey.TricountBack.Repository.ExpenseGroupRepository;
 import com.PierreBigey.TricountBack.Repository.UserAccountRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,6 +23,9 @@ public class UserAccountService {
     @Autowired
     private UserAccountRepository userAccountRepository;
 
+    @Autowired
+    private ExpenseGroupRepository expenseGroupRepository;
+
     //Create a new user account
     public UserAccount createUserAccount(UserAccountModel userAccountModel) {
         UserAccount userAccountToSave = UserAccount.builder()
@@ -29,6 +34,11 @@ public class UserAccountService {
                 .lastname(userAccountModel.getLastname())
                 .password(userAccountModel.getPassword())
                 .build();
+
+        if (userAccountModel.getGroups_ids() != null && !userAccountModel.getGroups_ids().isEmpty()) {
+            List<ExpenseGroup> groups = expenseGroupRepository.findAllById(userAccountModel.getGroups_ids());
+            userAccountToSave.setExpenseGroups(groups);
+        }
         return userAccountRepository.save(userAccountToSave);
     }
 

@@ -62,7 +62,7 @@ public class UserAccount extends BaseEntity {
     @JsonIgnore
     private Collection<ExpenseGroup> expenseGroups;
 
-    public List<Long> getExpenseGroups_ids(){
+    public List<Long> getGroups_ids(){
         if(Objects.isNull(expenseGroups)){
             return new ArrayList<>();
         }

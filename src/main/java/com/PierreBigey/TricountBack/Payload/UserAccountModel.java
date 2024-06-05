@@ -15,13 +15,13 @@ public class UserAccountModel {
     private String lastname;
     private String username;
     private String password;
-    private List<Long> groups_id;
+    private List<Long> groups_ids;
 
     public UserAccountModel(UserAccount userAccount){
         this.firstname = userAccount.getFirstname();
         this.lastname = userAccount.getLastname();
         this.username = userAccount.getUsername();
         this.password = userAccount.getPassword();
-        this.groups_id = userAccount.getExpenseGroups_ids();
+        this.groups_ids = userAccount.getGroups_ids();
     }
 }
