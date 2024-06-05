@@ -1,7 +1,10 @@
 package com.PierreBigey.TricountBack.Service;
 
+import com.PierreBigey.TricountBack.Entity.Expense;
 import com.PierreBigey.TricountBack.Entity.ExpenseParticipation;
+import com.PierreBigey.TricountBack.Entity.UserAccount;
 import com.PierreBigey.TricountBack.Exception.ResourceNotFoundException;
+import com.PierreBigey.TricountBack.Exception.UserNotInGroupException;
 import com.PierreBigey.TricountBack.Payload.ExpenseParticipationModel;
 import com.PierreBigey.TricountBack.Repository.ExpenseParticipationRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -31,9 +34,16 @@ public class ExpenseParticipationService {
 
     //Create a new participation
     public ExpenseParticipation createExpenseParticipation(ExpenseParticipationModel expenseParticipationModel){
+        UserAccount userAccount = userAccountService.getUserAccountById(expenseParticipationModel.getUser_id());
+        Expense expense = expenseService.getExpenseById(expenseParticipationModel.getExpense_id());
+
+        if (!userAccount.getGroups_ids().contains(expense.getGroup_id())) {
+            throw new UserNotInGroupException(String.format("User's ID (%d) not found in group ID (%d) where expense ID (%d) belongs", userAccount.getId(), expense.getGroup_id(),expense.getId()));
+        }
+
         ExpenseParticipation expenseParticipationToSave = ExpenseParticipation.builder()
-                .expense(expenseService.getExpenseById(expenseParticipationModel.getExpense_id()))
-                .user(userAccountService.getUserAccountById(expenseParticipationModel.getUser_id()))
+                .expense(expense)
+                .user(userAccount)
                 .weight(expenseParticipationModel.getWeight())
                 .build();
         return expenseParticipationRepository.save(expenseParticipationToSave);
