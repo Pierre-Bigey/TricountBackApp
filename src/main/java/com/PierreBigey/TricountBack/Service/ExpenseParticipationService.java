@@ -1,6 +1,7 @@
 package com.PierreBigey.TricountBack.Service;
 
 import com.PierreBigey.TricountBack.Entity.ExpenseParticipation;
+import com.PierreBigey.TricountBack.Exception.ResourceNotFoundException;
 import com.PierreBigey.TricountBack.Payload.ExpenseParticipationModel;
 import com.PierreBigey.TricountBack.Repository.ExpenseParticipationRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -45,17 +46,17 @@ public class ExpenseParticipationService {
 
     //Get a participation by id
     public ExpenseParticipation getExpenseParticipationById(Long id) {
-        return expenseParticipationRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return expenseParticipationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Expense participation with ID " + id + " not found"));
     }
 
     //Update a participation
     public void updateOne(long id, ExpenseParticipationModel expenseParticipationModel) {
-        if (expenseParticipationRepository.findById(id).isEmpty()) throw new EntityNotFoundException();
+        if (expenseParticipationRepository.findById(id).isEmpty()) throw new ResourceNotFoundException("Expense participation with ID " + id + " not found");
         expenseParticipationRepository.updateById(expenseParticipationModel.getExpense_id(), expenseParticipationModel.getUser_id(),expenseParticipationModel.getWeight(), id);
     }
 
     public ExpenseParticipation patchOne(long id, JsonPatch patch) {
-        var expenseParticipation = expenseParticipationRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        var expenseParticipation = expenseParticipationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Expense participation with ID " + id + " not found"));
         var expenseParticipationPatched = applyPatchToExpenseParticipation(patch, expenseParticipation);
         return expenseParticipationRepository.save(expenseParticipationPatched);
     }

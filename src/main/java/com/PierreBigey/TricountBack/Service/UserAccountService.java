@@ -50,17 +50,17 @@ public class UserAccountService {
 
     //Get a user account by id
     public UserAccount getUserAccountById(Long id) {
-        return userAccountRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return userAccountRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with ID " + id + " not found"));
     }
 
     //Update a user account
     public void updateOne(long id, UserAccountModel userAccountModel) {
-        if (userAccountRepository.findById(id).isEmpty()) throw new EntityNotFoundException();
+        if (userAccountRepository.findById(id).isEmpty()) throw new ResourceNotFoundException("User with ID " + id + " not found");
         userAccountRepository.updateById(userAccountModel.getUsername(), userAccountModel.getFirstname(), userAccountModel.getLastname(), userAccountModel.getPassword(), id);
     }
 
     public UserAccount patchOne(long id, JsonPatch patch) {
-        var userAccount = userAccountRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        var userAccount = userAccountRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with ID " + id + " not found"));
         var userAccountPatched = applyPatchToUserAccount(patch, userAccount);
         return userAccountRepository.save(userAccountPatched);
     }

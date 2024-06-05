@@ -5,6 +5,7 @@ import com.PierreBigey.TricountBack.Entity.ExpenseGroup;
 import com.PierreBigey.TricountBack.Entity.ExpenseParticipation;
 import com.PierreBigey.TricountBack.Entity.UserAccount;
 import com.PierreBigey.TricountBack.Exception.ResourceNotFoundException;
+import com.PierreBigey.TricountBack.Exception.UserNotInGroupException;
 import com.PierreBigey.TricountBack.Payload.ExpenseGroupModel;
 import com.PierreBigey.TricountBack.Payload.UserBalance;
 import com.PierreBigey.TricountBack.Repository.ExpenseGroupRepository;
@@ -49,17 +50,17 @@ public class ExpenseGroupService {
 
     //Get an expense groups by id
     public ExpenseGroup getExpenseGroupById(Long id) {
-        return expenseGroupRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return expenseGroupRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Expense group with ID " + id + " not found"));
     }
 
     //Update an expense groups
     public void updateOne(long id, ExpenseGroupModel expenseGroupModel) {
-        if (expenseGroupRepository.findById(id).isEmpty()) throw new EntityNotFoundException();
+        if (expenseGroupRepository.findById(id).isEmpty()) throw new ResourceNotFoundException("Expense group with ID " + id + " not found");
         expenseGroupRepository.updateById(expenseGroupModel.getGroupname(), expenseGroupModel.getDescription(), id);
     }
 
     public ExpenseGroup patchOne(long id, JsonPatch patch) {
-        var expenseGroup = expenseGroupRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        var expenseGroup = expenseGroupRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Expense group with ID " + id + " not found"));
         var expenseGroupPatched = applyPatchToExpenseGroup(patch, expenseGroup);
         return expenseGroupRepository.save(expenseGroupPatched);
     }
@@ -102,12 +103,12 @@ public class ExpenseGroupService {
     /**
      * Compute and return the balance of each user in the group
      *
-     * @param id the id of the group
+     * @param groupId the id of the group
      * @return the list of UserBalance
      */
-    public List<UserBalance> getBalance(long id){
-        ExpenseGroup group = expenseGroupRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Group with ID %d not found", id)));
+    public List<UserBalance> getBalance(long groupId){
+        ExpenseGroup group = expenseGroupRepository.findById(groupId)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Group with ID %d not found", groupId)));
 
         // List of expenses relative to the group
         List<Expense> expenses_of_group = group.getExpenses();
@@ -122,17 +123,25 @@ public class ExpenseGroupService {
 
         // Iterate over expenses and update user balances
         for (Expense expense : group.getExpenses()) {
-            double amount = expense.getAmount(); // Initialize positive balance with author's expense
+            double positive = expense.getAmount(); // Initialize positive balance with author's expense
             int expenseTotalWeight = expense.getSumOfWeight();
 
             // Update positive balance for author
-            UserBalance authorBalance = userBalanceMap.get(expense.getAuthor().getId());
-            authorBalance.setBalance(authorBalance.getBalance() + amount);
+            Long authorId = expense.getAuthor().getId();
+            if (!userBalanceMap.containsKey(authorId)) {
+                throw new UserNotInGroupException(String.format("Author's ID (%d) not found in group ID (%d)", authorId, groupId));
+            }
+            UserBalance authorBalance = userBalanceMap.get(authorId);
+            authorBalance.setBalance(authorBalance.getBalance() + positive);
 
             // Update negative balance for participants
             for (ExpenseParticipation participation : expense.getParticipations()) {
                 double negative = expense.getAmount() * participation.getWeight() / expenseTotalWeight;
-                UserBalance participantBalance = userBalanceMap.get(participation.getUser_id());
+                Long userId = participation.getUser_id();
+                if (!userBalanceMap.containsKey(userId)) {
+                    throw new UserNotInGroupException(String.format("User's ID (%d) not found in group ID (%d)", userId, groupId));
+                }
+                UserBalance participantBalance = userBalanceMap.get(userId);
                 participantBalance.setBalance(participantBalance.getBalance() - negative);
                 participantBalance.setTotalExpense(participantBalance.getTotalExpense() + negative);
             }

@@ -1,6 +1,7 @@
 package com.PierreBigey.TricountBack.Service;
 
 import com.PierreBigey.TricountBack.Entity.Expense;
+import com.PierreBigey.TricountBack.Exception.ResourceNotFoundException;
 import com.PierreBigey.TricountBack.Payload.ExpenseModel;
 import com.PierreBigey.TricountBack.Repository.ExpenseRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -46,17 +47,17 @@ public class ExpenseService {
 
     //Get an expense by id
     public Expense getExpenseById(Long id) {
-        return expenseRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return expenseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Expense with ID " + id + " not found"));
     }
 
     //Update an expense
     public void updateOne(long id, ExpenseModel expenseModel) {
-        if (expenseRepository.findById(id).isEmpty()) throw new EntityNotFoundException();
+        if (expenseRepository.findById(id).isEmpty()) throw new ResourceNotFoundException("Expense with ID " + id + " not found");
         expenseRepository.updateById(expenseModel.getTitle(), expenseModel.getDescription(),expenseModel.getAmount(),expenseModel.getAuthor_id(),expenseModel.getGroup_id(), id);
     }
 
     public Expense patchOne(long id, JsonPatch patch) {
-        var expense = expenseRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        var expense = expenseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Expense with ID " + id + " not found"));
         var expensePatched = applyPatchToExpense(patch, expense);
         return expenseRepository.save(expensePatched);
     }
