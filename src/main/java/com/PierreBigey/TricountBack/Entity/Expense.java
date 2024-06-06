@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -36,6 +37,10 @@ public class Expense extends BaseEntity {
     @Column(name = "amount", nullable = false)
     @NotNull(message = "Expense must have a amount.")
     private double amount;
+
+    @Column(name = "expense_date", nullable = false)
+    @NotNull(message = "Expense must have an expense_date")
+    private Date expense_date;
 
     @ManyToOne
     @JoinColumn(

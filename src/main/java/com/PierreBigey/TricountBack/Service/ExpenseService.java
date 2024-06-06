@@ -34,6 +34,7 @@ public class ExpenseService {
                 .title(expenseModel.getTitle())
                 .description(expenseModel.getDescription())
                 .amount(expenseModel.getAmount())
+                .expense_date(expenseModel.getExpense_date())
                 .author(userAccountService.getUserAccountById(expenseModel.getAuthor_id()))
                 .group(expenseGroupService.getExpenseGroupById(expenseModel.getGroup_id()))
                 .build();
@@ -53,7 +54,7 @@ public class ExpenseService {
     //Update an expense
     public void updateOne(long id, ExpenseModel expenseModel) {
         if (expenseRepository.findById(id).isEmpty()) throw new ResourceNotFoundException("Expense with ID " + id + " not found");
-        expenseRepository.updateById(expenseModel.getTitle(), expenseModel.getDescription(),expenseModel.getAmount(),expenseModel.getAuthor_id(),expenseModel.getGroup_id(), id);
+        expenseRepository.updateById(expenseModel.getTitle(), expenseModel.getDescription(),expenseModel.getAmount(),expenseModel.getExpense_date(), expenseModel.getAuthor_id(),expenseModel.getGroup_id(), id);
     }
 
     public Expense patchOne(long id, JsonPatch patch) {
