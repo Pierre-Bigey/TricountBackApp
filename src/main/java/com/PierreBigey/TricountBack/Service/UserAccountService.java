@@ -69,7 +69,7 @@ public class UserAccountService {
         UserAccount userAccount = userAccountRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("User with ID %d not found", userId)));
 
-        for(long group_id : groupIds){
+        for(long group_id : groupIds) {
             ExpenseGroup expenseGroup = expenseGroupRepository.findById(group_id)
                     .orElseThrow(() -> new ResourceNotFoundException(String.format("Group with ID %d not found", group_id)));
             userAccountRepository.AddGroupToUser(userId, group_id);

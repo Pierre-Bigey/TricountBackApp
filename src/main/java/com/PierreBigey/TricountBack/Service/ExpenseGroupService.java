@@ -31,7 +31,7 @@ public class ExpenseGroupService {
     private UserAccountRepository userAccountRepository;
 
     //Create a new expense groups
-    public ExpenseGroup createExpenseGroup(ExpenseGroupModel expenseGroupModel){
+    public ExpenseGroup createExpenseGroup(ExpenseGroupModel expenseGroupModel) {
         ExpenseGroup expenseGroupToSave = ExpenseGroup.builder()
                 .groupname(expenseGroupModel.getGroupname())
                 .description(expenseGroupModel.getDescription())
@@ -69,7 +69,7 @@ public class ExpenseGroupService {
         ExpenseGroup expenseGroup = expenseGroupRepository.findById(groupId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Group with ID %d not found", groupId)));
 
-        for(long user_id : userIds){
+        for(long user_id : userIds) {
             UserAccount userAccount = userAccountRepository.findById(user_id)
                     .orElseThrow(() -> new ResourceNotFoundException(String.format("User with ID %d not found", user_id)));
             expenseGroupRepository.AddUserToGroup(groupId, user_id);
@@ -106,7 +106,7 @@ public class ExpenseGroupService {
      * @param groupId the id of the group
      * @return the list of UserBalance
      */
-    public List<UserBalance> getBalance(long groupId){
+    public List<UserBalance> getBalance(long groupId) {
         ExpenseGroup group = expenseGroupRepository.findById(groupId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Group with ID %d not found", groupId)));
 

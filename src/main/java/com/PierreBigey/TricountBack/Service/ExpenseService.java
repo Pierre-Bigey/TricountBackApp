@@ -4,15 +4,16 @@ import com.PierreBigey.TricountBack.Entity.Expense;
 import com.PierreBigey.TricountBack.Exception.ResourceNotFoundException;
 import com.PierreBigey.TricountBack.Payload.ExpenseModel;
 import com.PierreBigey.TricountBack.Repository.ExpenseRepository;
+import com.PierreBigey.TricountBack.Utils.CustomNumberFormat;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.List;
 
@@ -28,12 +29,14 @@ public class ExpenseService {
     @Autowired
     private ExpenseGroupService expenseGroupService;
 
+
     //Create a new expense
-    public Expense createExpense(ExpenseModel expenseModel){
+    public Expense createExpense(ExpenseModel expenseModel) {
+        DecimalFormat decimalFormat = new DecimalFormat( "#.###" );
         Expense expenseToSave = Expense.builder()
                 .title(expenseModel.getTitle())
                 .description(expenseModel.getDescription())
-                .amount(expenseModel.getAmount())
+                .amount(CustomNumberFormat.format(expenseModel.getAmount()))
                 .expense_date(expenseModel.getExpense_date())
                 .author(userAccountService.getUserAccountById(expenseModel.getAuthor_id()))
                 .group(expenseGroupService.getExpenseGroupById(expenseModel.getGroup_id()))

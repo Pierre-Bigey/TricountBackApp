@@ -52,8 +52,8 @@ public class ExpenseGroup extends BaseEntity {
     @JsonIgnore
     private List<UserAccount> members;
 
-    public List<Long> getMembers_ids(){
-        if(Objects.isNull(members)){
+    public List<Long> getMembers_ids() {
+        if (Objects.isNull(members)) {
             return new ArrayList<>();
         }
         return members.stream()
@@ -66,8 +66,8 @@ public class ExpenseGroup extends BaseEntity {
     @JsonIgnore
     private List<Expense> expenses;
 
-    public List<Long> getExpenses_ids(){
-        if(Objects.isNull(expenses)){
+    public List<Long> getExpenses_ids() {
+        if (Objects.isNull(expenses)) {
             return new ArrayList<>();
         }
         return expenses.stream()
@@ -75,7 +75,7 @@ public class ExpenseGroup extends BaseEntity {
                 .collect(Collectors.toList());
     }
 
-    public ExpenseGroupModel viewAsExpenseGroupModel(){
+    public ExpenseGroupModel viewAsExpenseGroupModel() {
         return new ExpenseGroupModel(this);
     }
 

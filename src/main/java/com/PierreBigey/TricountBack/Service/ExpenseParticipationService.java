@@ -33,7 +33,7 @@ public class ExpenseParticipationService {
 
 
     //Create a new participation
-    public ExpenseParticipation createExpenseParticipation(ExpenseParticipationModel expenseParticipationModel){
+    public ExpenseParticipation createExpenseParticipation(ExpenseParticipationModel expenseParticipationModel) {
         UserAccount userAccount = userAccountService.getUserAccountById(expenseParticipationModel.getUser_id());
         Expense expense = expenseService.getExpenseById(expenseParticipationModel.getExpense_id());
 

@@ -17,7 +17,7 @@ public class UserAccountModel {
     private String password;
     private List<Long> groups_ids;
 
-    public UserAccountModel(UserAccount userAccount){
+    public UserAccountModel(UserAccount userAccount) {
         this.firstname = userAccount.getFirstname();
         this.lastname = userAccount.getLastname();
         this.username = userAccount.getUsername();

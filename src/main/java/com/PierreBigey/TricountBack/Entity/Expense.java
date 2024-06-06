@@ -51,7 +51,7 @@ public class Expense extends BaseEntity {
     @JsonIgnore
     private UserAccount author;
 
-    public long getAuthor_id(){
+    public long getAuthor_id() {
         return author.getId();
     }
 
@@ -64,7 +64,7 @@ public class Expense extends BaseEntity {
     @JsonIgnore
     private ExpenseGroup group;
 
-    public long getGroup_id(){
+    public long getGroup_id() {
         return group.getId();
     }
 
@@ -73,8 +73,8 @@ public class Expense extends BaseEntity {
     @JsonIgnore
     private List<ExpenseParticipation> participations;
 
-    public List<Long> getParticipations_ids(){
-        if(Objects.isNull(participations)){
+    public List<Long> getParticipations_ids() {
+        if (Objects.isNull(participations)) {
             return new ArrayList<>();
         }
         return participations.stream()
@@ -82,15 +82,15 @@ public class Expense extends BaseEntity {
                 .collect(Collectors.toList());
     }
 
-    public int getSumOfWeight(){
+    public int getSumOfWeight() {
         int sum = 0;
-        for(ExpenseParticipation participation : participations){
+        for(ExpenseParticipation participation : participations) {
             sum += participation.getWeight();
         }
         return sum;
     }
 
-    public ExpenseModel viewAsExpenseModel(){
+    public ExpenseModel viewAsExpenseModel() {
         return new ExpenseModel(this);
     }
 }

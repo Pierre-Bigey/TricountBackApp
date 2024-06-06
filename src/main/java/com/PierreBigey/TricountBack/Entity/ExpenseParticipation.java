@@ -29,7 +29,7 @@ public class ExpenseParticipation extends BaseEntity{
     @JsonIgnore
     private Expense expense;
 
-    public long getExpense_id(){
+    public long getExpense_id() {
         return expense.getId();
     }
 
@@ -42,7 +42,7 @@ public class ExpenseParticipation extends BaseEntity{
     @JsonIgnore
     private UserAccount user;
 
-    public long getUser_id(){
+    public long getUser_id() {
         return user.getId();
     }
 

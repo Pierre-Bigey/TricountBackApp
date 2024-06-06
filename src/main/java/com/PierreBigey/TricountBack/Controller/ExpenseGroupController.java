@@ -67,7 +67,7 @@ public class ExpenseGroupController {
     }
 
     @GetMapping("/balance/{id}")
-    public List<UserBalance> getGroupBalance(@PathVariable("id") int id){
+    public List<UserBalance> getGroupBalance(@PathVariable("id") int id) {
         return expenseGroupService.getBalance(id);
     }
 
