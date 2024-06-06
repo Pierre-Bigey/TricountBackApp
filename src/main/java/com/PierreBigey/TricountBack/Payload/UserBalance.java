@@ -27,4 +27,8 @@ public class UserBalance {
     public void setTotalExpense(double value) {
         totalExpense = CustomNumberFormat.format(value);
     }
+
+    public double getTotalExpense(){
+        return CustomNumberFormat.format(totalExpense);
+    }
 }

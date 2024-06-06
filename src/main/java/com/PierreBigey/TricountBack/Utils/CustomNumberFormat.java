@@ -1,10 +1,14 @@
 package com.PierreBigey.TricountBack.Utils;
 
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class CustomNumberFormat {
 
-    public static Double format(double amount) {
-        return Math.round(amount*100)*0.01;
+    public static double format(double value) {
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }
