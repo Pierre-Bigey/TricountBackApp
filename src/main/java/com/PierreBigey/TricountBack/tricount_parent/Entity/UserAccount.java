@@ -1,15 +1,13 @@
 package com.PierreBigey.TricountBack.tricount_parent.Entity;
 
+import com.PierreBigey.TricountBack.authentification.Model.Role;
 import com.PierreBigey.TricountBack.tricount_parent.Payload.Request.UserAccountModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -70,6 +68,21 @@ public class UserAccount extends BaseEntity {
                 .map(ExpenseGroup::getId)
                 .collect(Collectors.toList());
     }
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+
+    public UserAccount(String _username, String _firstname, String _lastname, String _password){
+        this.username = _username;
+        this.firstname = _firstname;
+        this.lastname = _lastname;
+        this.password = _password;
+    }
+
 
     public UserAccountModel viewAsUserAccountModel() {
         return new UserAccountModel(this);

@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
     @Modifying
@@ -18,5 +20,9 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Long> 
     @Transactional
     @Query(value = "INSERT INTO users_groups (user_id, group_id) VALUES (?1,?2);", nativeQuery = true)
     void AddGroupToUser(long user_id, long group_id);
+
+    Optional<UserAccount> findByUsername(String username);
+
+    Boolean existsByUsername(String username);
 
 }
