@@ -47,6 +47,11 @@ public class UserAccountController {
         return new ResponseEntity<>(userAccountService.patchOne(id, patch),HttpStatus.OK);
     }
 
+    @PostMapping("/{userId}/add-group")
+    public ResponseEntity<UserAccount> addUserToGroups(@PathVariable long userId, @RequestBody List<Long> groupIds) {
+        return new ResponseEntity<>(userAccountService.addGroupsToUser(userId, groupIds),HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteOneUserAccount(@PathVariable("id") int id) {
