@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 //(securedEnabled = true,
 //jsr250Enabled = true,
-//prePostEnabled = true) // by default
+//    prePostEnabled = true)
 public class WebSecurityConfig {
 
     @Autowired
@@ -63,9 +63,14 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/test/**").permitAll()
+                                .requestMatchers("/api/users").permitAll()
+                                .requestMatchers("/demo").permitAll()
                                 .anyRequest().authenticated()
-                );
+                )
+                .formLogin((form) -> form
+                        .loginPage("/api/auth/signin").permitAll()
+                )
+                .logout((logout) -> logout.permitAll());
 
         http.authenticationProvider(authenticationProvider());
 

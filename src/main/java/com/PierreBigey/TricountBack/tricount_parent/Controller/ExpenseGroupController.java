@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/groups")
+@RequestMapping("/api/groups")
 public class ExpenseGroupController {
 
     @Autowired
