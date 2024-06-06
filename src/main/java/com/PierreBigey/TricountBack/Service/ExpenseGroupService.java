@@ -6,8 +6,8 @@ import com.PierreBigey.TricountBack.Entity.ExpenseParticipation;
 import com.PierreBigey.TricountBack.Entity.UserAccount;
 import com.PierreBigey.TricountBack.Exception.ResourceNotFoundException;
 import com.PierreBigey.TricountBack.Exception.UserNotInGroupException;
-import com.PierreBigey.TricountBack.Payload.ExpenseGroupModel;
-import com.PierreBigey.TricountBack.Payload.UserBalance;
+import com.PierreBigey.TricountBack.Payload.Request.ExpenseGroupModel;
+import com.PierreBigey.TricountBack.Payload.Response.UserBalance;
 import com.PierreBigey.TricountBack.Repository.ExpenseGroupRepository;
 import com.PierreBigey.TricountBack.Repository.UserAccountRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

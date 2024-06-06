@@ -1,6 +1,6 @@
 package com.PierreBigey.TricountBack.Entity;
 
-import com.PierreBigey.TricountBack.Payload.UserAccountModel;
+import com.PierreBigey.TricountBack.Payload.Request.UserAccountModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

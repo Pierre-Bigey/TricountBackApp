@@ -2,7 +2,7 @@ package com.PierreBigey.TricountBack.Service;
 
 import com.PierreBigey.TricountBack.Entity.Expense;
 import com.PierreBigey.TricountBack.Exception.ResourceNotFoundException;
-import com.PierreBigey.TricountBack.Payload.ExpenseModel;
+import com.PierreBigey.TricountBack.Payload.Request.ExpenseModel;
 import com.PierreBigey.TricountBack.Repository.ExpenseRepository;
 import com.PierreBigey.TricountBack.Utils.CustomNumberFormat;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,7 +13,6 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.List;
 
@@ -32,7 +31,6 @@ public class ExpenseService {
 
     //Create a new expense
     public Expense createExpense(ExpenseModel expenseModel) {
-        DecimalFormat decimalFormat = new DecimalFormat( "#.###" );
         Expense expenseToSave = Expense.builder()
                 .title(expenseModel.getTitle())
                 .description(expenseModel.getDescription())

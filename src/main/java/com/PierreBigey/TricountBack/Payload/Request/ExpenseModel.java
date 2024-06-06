@@ -1,4 +1,4 @@
-package com.PierreBigey.TricountBack.Payload;
+package com.PierreBigey.TricountBack.Payload.Request;
 
 import com.PierreBigey.TricountBack.Entity.Expense;
 import lombok.Getter;

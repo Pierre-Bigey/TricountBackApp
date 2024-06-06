@@ -1,6 +1,6 @@
 package com.PierreBigey.TricountBack.Entity;
 
-import com.PierreBigey.TricountBack.Payload.ExpenseModel;
+import com.PierreBigey.TricountBack.Payload.Request.ExpenseModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

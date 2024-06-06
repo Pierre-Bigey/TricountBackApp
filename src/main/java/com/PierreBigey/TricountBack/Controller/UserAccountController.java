@@ -2,7 +2,7 @@ package com.PierreBigey.TricountBack.Controller;
 
 
 import com.PierreBigey.TricountBack.Entity.UserAccount;
-import com.PierreBigey.TricountBack.Payload.UserAccountModel;
+import com.PierreBigey.TricountBack.Payload.Request.UserAccountModel;
 import com.PierreBigey.TricountBack.Service.UserAccountService;
 import com.github.fge.jsonpatch.JsonPatch;
 import org.springframework.beans.factory.annotation.Autowired;

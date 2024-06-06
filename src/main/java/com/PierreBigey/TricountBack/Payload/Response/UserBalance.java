@@ -1,10 +1,9 @@
-package com.PierreBigey.TricountBack.Payload;
+package com.PierreBigey.TricountBack.Payload.Response;
 
 import com.PierreBigey.TricountBack.Utils.CustomNumberFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Data
 @AllArgsConstructor

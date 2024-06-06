@@ -2,7 +2,7 @@ package com.PierreBigey.TricountBack.Controller;
 
 
 import com.PierreBigey.TricountBack.Entity.ExpenseParticipation;
-import com.PierreBigey.TricountBack.Payload.ExpenseParticipationModel;
+import com.PierreBigey.TricountBack.Payload.Request.ExpenseParticipationModel;
 import com.PierreBigey.TricountBack.Service.ExpenseParticipationService;
 import com.github.fge.jsonpatch.JsonPatch;
 import org.springframework.beans.factory.annotation.Autowired;

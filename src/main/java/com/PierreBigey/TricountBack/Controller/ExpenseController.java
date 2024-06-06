@@ -2,8 +2,7 @@ package com.PierreBigey.TricountBack.Controller;
 
 
 import com.PierreBigey.TricountBack.Entity.Expense;
-import com.PierreBigey.TricountBack.Payload.ExpenseModel;
-import com.PierreBigey.TricountBack.Service.ExpenseService;
+import com.PierreBigey.TricountBack.Payload.Request.ExpenseModel;
 import com.PierreBigey.TricountBack.Service.ExpenseService;
 import com.github.fge.jsonpatch.JsonPatch;
 import org.springframework.beans.factory.annotation.Autowired;

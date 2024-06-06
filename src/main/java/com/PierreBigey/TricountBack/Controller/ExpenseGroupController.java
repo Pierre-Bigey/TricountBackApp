@@ -2,9 +2,8 @@ package com.PierreBigey.TricountBack.Controller;
 
 
 import com.PierreBigey.TricountBack.Entity.ExpenseGroup;
-import com.PierreBigey.TricountBack.Entity.UserAccount;
-import com.PierreBigey.TricountBack.Payload.ExpenseGroupModel;
-import com.PierreBigey.TricountBack.Payload.UserBalance;
+import com.PierreBigey.TricountBack.Payload.Request.ExpenseGroupModel;
+import com.PierreBigey.TricountBack.Payload.Response.UserBalance;
 import com.PierreBigey.TricountBack.Service.ExpenseGroupService;
 import com.github.fge.jsonpatch.JsonPatch;
 import org.springframework.beans.factory.annotation.Autowired;
