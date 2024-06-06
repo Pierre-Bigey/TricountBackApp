@@ -28,7 +28,4 @@ public class UserBalance {
         totalExpense = CustomNumberFormat.format(value);
     }
 
-    public double getTotalExpense(){
-        return CustomNumberFormat.format(totalExpense);
-    }
 }
