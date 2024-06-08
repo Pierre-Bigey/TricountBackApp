@@ -1,6 +1,6 @@
 package com.PierreBigey.TricountBack.Utils;
 
-import jakarta.validation.constraints.AssertTrue;
+import com.PierreBigey.TricountBack.tricount_parent.Utils.CustomNumberFormat;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
