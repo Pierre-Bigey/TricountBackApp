@@ -84,8 +84,10 @@ public class Expense extends BaseEntity {
 
     public int getSumOfWeight() {
         int sum = 0;
-        for(ExpenseParticipation participation : participations) {
-            sum += participation.getWeight();
+        if (!Objects.isNull(participations)) {
+            for(ExpenseParticipation participation : participations) {
+                sum += participation.getWeight();
+            }
         }
         return sum;
     }
