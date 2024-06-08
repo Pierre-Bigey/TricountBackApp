@@ -18,11 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-//@EnableWebSecurity
 @EnableMethodSecurity
-//(securedEnabled = true,
-//jsr250Enabled = true,
-//    prePostEnabled = true)
 public class WebSecurityConfig {
 
     @Autowired
@@ -62,12 +58,10 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/auth/**").permitAll()
+                        auth.requestMatchers("/api/**").permitAll()
+                                .requestMatchers("/error").permitAll()
                                 .requestMatchers("/api/users").permitAll()
                                 .requestMatchers("/demo").permitAll()
-                )
-                .formLogin((form) -> form
-                        .loginPage("/api/auth/login").permitAll()
                 )
                 .logout((logout) -> logout.permitAll());
 

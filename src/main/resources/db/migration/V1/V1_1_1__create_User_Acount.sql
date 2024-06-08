@@ -4,6 +4,6 @@ CREATE TABLE user_account (
     firstname varchar(255) NOT NULL,
     lastname varchar(255) NOT NULL,
     password varchar(255) NOT NULL,
-    created_at date NOT NULL,
-    updated_at date NOT NULL
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
     );
